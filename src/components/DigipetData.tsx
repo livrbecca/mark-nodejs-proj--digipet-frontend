@@ -6,7 +6,11 @@ interface Props {
 
 function DigipetData({ digipet }: Props) {
   if (digipet) {
+    console.log("what is digipet:", digipet);
+    //object w key:value pairs o
     const digipetEntries = Object.entries(digipet);
+    console.log("object.entries(digipet)", digipetEntries);
+    // logs an array, ["happiness", 80] - ["key", value] - nested array?
     const digipetStats = digipetEntries.map(([key, val]) => (
       <li key={key}>
         {key}: {val}

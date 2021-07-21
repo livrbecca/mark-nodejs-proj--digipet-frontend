@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import DigipetActions from "./components/DigipetActions";
 import DigipetData from "./components/DigipetData";
+import "./style.css";
 
 export interface Digipet {
   happiness: number;
@@ -19,7 +20,18 @@ function App() {
     try {
       const res = await fetch(`http://localhost:4000${endpoint}`);
       const body = await res.json();
-      setMessage(body.message);
+      const UImessage = body.message
+        .replace("/", "")
+        .replace("endpoint", "button")
+        .replace("with the /digipet/[action], for actions", "")
+        .replace(" try /digipet/walk ", " press walk ");
+      if (endpoint === "/instructions") {
+        setMessage(" ");
+      } else {
+        setMessage(UImessage);
+      }
+      // setMessage(UImessage);
+      // setMessage(body.message.includes("/") ? body.descripton : body.message);
       setDigipetStats(body.digipet);
     } catch (err) {
       console.log(err);
@@ -32,13 +44,13 @@ function App() {
     // safe to ignore exhaustive deps warning as we're _not_ triggering infinite updates, since our setState is conditional and not executed on all rerenders after the first one
     if (isFirstLoad) {
       // populate data on first load
-      loadDataFromEndpoint("/digipet");
+      loadDataFromEndpoint("/");
       setIsFirstLoad(false);
     }
   });
 
   return (
-    <main>
+    <main className="game-container">
       <h1>Digipet</h1>
       {isFirstLoad && <p>Loading...</p>}
       {message && <p>{message}</p>}
@@ -46,7 +58,17 @@ function App() {
       <DigipetData digipet={digipetStats} />
       <hr />
       <DigipetActions
+        instructions={[
+          {
+            name: "Instructions",
+            handler: () => alert(message),
+          },
+        ]}
         actions={[
+          {
+            name: "Check digipet",
+            handler: () => loadDataFromEndpoint("/digipet"),
+          },
           {
             name: "Hatch",
             handler: () => loadDataFromEndpoint("/digipet/hatch"),
@@ -55,7 +77,18 @@ function App() {
             name: "Walk",
             handler: () => loadDataFromEndpoint("/digipet/walk"),
           },
-          { name: "Feed" },
+          {
+            name: "Feed",
+            handler: () => loadDataFromEndpoint("/digipet/feed"),
+          },
+          {
+            name: "Train",
+            handler: () => loadDataFromEndpoint("/digipet/train"),
+          },
+          {
+            name: "Ignore",
+            handler: () => loadDataFromEndpoint("/digipet/ignore"),
+          },
         ]}
       />
     </main>
