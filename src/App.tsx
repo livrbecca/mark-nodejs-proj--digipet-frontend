@@ -12,6 +12,7 @@ export interface Digipet {
 function App() {
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [message, setMessage] = useState<string>();
+  const [infoMessage, setInfoMessage] = useState<string>();
   const [digipetStats, setDigipetStats] = useState<Digipet>();
 
   const loadDataFromEndpoint = async (endpoint: `/${string}`) => {
@@ -25,12 +26,7 @@ function App() {
         .replace("endpoint", "button")
         .replace("with the /digipet/[action], for actions", "")
         .replace(" try /digipet/walk ", " press walk ");
-      if (endpoint === "/instructions") {
-        setMessage(" ");
-      } else {
-        setMessage(UImessage);
-      }
-      // setMessage(UImessage);
+      setMessage(UImessage);
       // setMessage(body.message.includes("/") ? body.descripton : body.message);
       setDigipetStats(body.digipet);
     } catch (err) {
@@ -38,6 +34,17 @@ function App() {
       setMessage(`${err.name}: ${err.message}`);
     }
   };
+
+  const instructionsData = async () => {
+    const res = await fetch(`http://localhost:4000/instructions`);
+    const body = await res.json();
+    const mainMessage: string = body.message;
+    setInfoMessage(mainMessage);
+  };
+
+  useEffect(() => {
+    instructionsData();
+  }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -61,7 +68,8 @@ function App() {
         instructions={[
           {
             name: "Instructions",
-            handler: () => alert(message),
+            handler: () => alert(infoMessage),
+            // replace terminology
           },
         ]}
         actions={[
