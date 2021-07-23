@@ -19,19 +19,11 @@ function App() {
     // try... catch documentation:
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
     try {
-      console.log(endpoint);
       const res = await fetch(
         `https://fast-peak-16437.herokuapp.com${endpoint}`
       );
       // https://fast-peak-16437.herokuapp.com HEROKU
       const body = await res.json();
-      console.log(body);
-      //const UImessage = body.message
-      //   .replace("/", "")
-      //   .replace("endpoint", "button")
-      //   .replace("with the /digipet/[action], for actions", "")
-      //   .replace(" try /digipet/walk ", " press walk ");
-      // setMessage(UImessage);
       setMessage(body.message.includes("/") ? body.description : body.message);
       setDigipetStats(body.digipet);
     } catch (err) {
@@ -41,7 +33,9 @@ function App() {
   };
 
   const instructionsData = async () => {
-    const res = await fetch(`http://localhost:4000/instructions`);
+    const res = await fetch(
+      `https://fast-peak-16437.herokuapp.com/instructions`
+    );
     const body = await res.json();
     const mainMessage: string = body.description;
     setInfoMessage(mainMessage);
@@ -49,7 +43,7 @@ function App() {
 
   useEffect(() => {
     instructionsData();
-  }, []);
+  }, [setInfoMessage]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
