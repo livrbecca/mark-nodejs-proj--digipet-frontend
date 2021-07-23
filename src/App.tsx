@@ -19,15 +19,18 @@ function App() {
     // try... catch documentation:
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
     try {
-      const res = await fetch(`http://localhost:4000${endpoint}`);
+      const res = await fetch(
+        `https://fast-peak-16437.herokuapp.com${endpoint}`
+      );
       const body = await res.json();
-      const UImessage = body.message
-        .replace("/", "")
-        .replace("endpoint", "button")
-        .replace("with the /digipet/[action], for actions", "")
-        .replace(" try /digipet/walk ", " press walk ");
-      setMessage(UImessage);
-      // setMessage(body.message.includes("/") ? body.descripton : body.message);
+      console.log(body.description);
+      //const UImessage = body.message
+      //   .replace("/", "")
+      //   .replace("endpoint", "button")
+      //   .replace("with the /digipet/[action], for actions", "")
+      //   .replace(" try /digipet/walk ", " press walk ");
+      // setMessage(UImessage);
+      setMessage(body.message.includes("/") ? body.descripton : body.message);
       setDigipetStats(body.digipet);
     } catch (err) {
       console.log(err);
