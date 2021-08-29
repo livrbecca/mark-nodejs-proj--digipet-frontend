@@ -1,3 +1,13 @@
+# Digipet Game
+- To play the game I created, view it [here](https://digipets-liv.netlify.app) on Netlify: https://digipets-liv.netlify.app
+
+- To view the backend server code, view the following repository [here](https://github.com/livrbecca/mark-nodejs-proj--digipet-backend)
+
+- Design: 80's style retro game looking after a digital pet
+
+![digi](https://user-images.githubusercontent.com/69110329/131264575-8f93d281-9f3c-4905-baa3-0f0faaaf13f0.gif)
+
+
 # Digipet - Frontend
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a>
